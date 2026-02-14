@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Be My Valentine 💘</title>
 
 <style>
@@ -19,16 +19,16 @@ body {
 
 .card {
   background: white;
-  padding: 40px;
+  padding: 30px;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-  width: 320px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  width: 350px;
+  position: relative;
 }
 
 h1 {
   color: #ff4d6d;
-  margin-bottom: 20px;
 }
 
 button {
@@ -51,14 +51,33 @@ button {
   color: white;
 }
 
+.photo {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
 #message {
-  margin-top: 20px;
-  font-size: 16px;
+  margin-top: 10px;
   color: #555;
+  font-size: 14px;
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  color: pink;
+  font-size: 20px;
+  animation: floatUp 4s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-600px); opacity: 0; }
 }
 
 .kiss {
-  font-size: 100px;
+  width: 150px;
   animation: pop 0.6s ease;
 }
 
@@ -72,9 +91,15 @@ button {
 <body>
 
 <div class="card" id="mainCard">
+  
+  <!-- Your photo -->
+  <img src="photo/5.jpeg" class="photo">
+  
   <h1>Will You Be My Valentine? 💖</h1>
+
   <button id="yesBtn">Yes 💘</button>
   <button id="noBtn">No 🙈</button>
+
   <div id="message"></div>
 </div>
 
@@ -84,20 +109,21 @@ let noSize = 18;
 let attempt = 0;
 
 const funnyTexts = [
-  "Are you sureeee? 🥺",
+  "Are you sure? 🥺",
   "Think again 😌",
-  "System error… wrong choice detected 💔",
+  "Wrong answer detected 💔",
   "Retrying love request... ❤️",
   "You can't escape destiny 😏",
-  "Last chance... choose wisely 💘"
+  "System says YES only 💘"
 ];
 
 document.getElementById("noBtn").addEventListener("click", function() {
+
   document.getElementById("message").innerText = funnyTexts[attempt % funnyTexts.length];
   attempt++;
 
-  yesSize += 6;
-  noSize -= 2;
+  yesSize += 8;
+  noSize -= 3;
 
   document.getElementById("yesBtn").style.fontSize = yesSize + "px";
   document.getElementById("noBtn").style.fontSize = noSize + "px";
@@ -108,13 +134,32 @@ document.getElementById("noBtn").addEventListener("click", function() {
 });
 
 document.getElementById("yesBtn").addEventListener("click", function() {
+
   document.getElementById("mainCard").innerHTML = `
-    <div class="kiss">💋</div>
-    <h1>Yaaay!! ❤️</h1>
+    <img src="photo/6.jpeg" class="kiss">
+    <h1>Yaaaay!! ❤️</h1>
     <p>You just made me the happiest guy alive 😘</p>
-    <p>Screenshot this and send it to me 😌</p>
+    <p>I love you so much 💖</p>
   `;
+
+  createHearts();
 });
+
+function createHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.top = "80%";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 4000);
+  }, 300);
+}
 </script>
 
 </body>
